@@ -1,0 +1,73 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+
+# OIDC needs id-token: write. No AWS access keys are stored anywhere.
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: eu-west-2
+  TF_DIR: terraform
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install -r backend/requirements.txt
+      - name: Run tests
+        run: pytest backend/tests -v
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Terraform fmt
+        run: terraform -chdir=${{ env.TF_DIR }} fmt -check
+
+      - name: Terraform init
+        run: terraform -chdir=${{ env.TF_DIR }} init
+
+      - name: Terraform validate
+        run: terraform -chdir=${{ env.TF_DIR }} validate
+
+      - name: Terraform apply
+        run: terraform -chdir=${{ env.TF_DIR }} apply -auto-approve
+
+      - name: Read outputs
+        id: tf
+        run: |
+          cd ${{ env.TF_DIR }}
+          echo "bucket=$(terraform output -raw s3_bucket)" >> "$GITHUB_OUTPUT"
+          echo "dist=$(terraform output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+          echo "api=$(terraform output -raw api_endpoint)" >> "$GITHUB_OUTPUT"
+
+      - name: Inject API endpoint into frontend
+        run: |
+          sed -i "s#REPLACE_WITH_API_ENDPOINT#${{ steps.tf.outputs.api }}#g" frontend/counter.js
+
+      - name: Sync frontend to S3
+        run: aws s3 sync frontend/ "s3://${{ steps.tf.outputs.bucket }}" --delete
+
+      - name: Invalidate CloudFront
+        run: aws cloudfront create-invalidation --distribution-id "${{ steps.tf.outputs.dist }}" --paths "/*"

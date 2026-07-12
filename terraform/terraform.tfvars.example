@@ -1,0 +1,13 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+
+aws_region  = "eu-west-2"
+project     = "cloud-resume-challenge"
+github_repo = "your-github-username/cloud-resume-challenge"
+
+# Deploy on the default *.cloudfront.net URL — no domain needed.
+use_custom_domain = false
+
+# When your domain is ready, flip use_custom_domain to true and set these:
+# use_custom_domain = true
+# domain_name      = "joshuabarradas.com"
+# hosted_zone_name = "joshuabarradas.com"

@@ -1,0 +1,271 @@
+/*
+  Joshua Barradas — résumé site
+  Concept: the page presents itself as a live, running system reporting its own
+  telemetry. Boldness is spent in one place — the live status bar and the
+  visitor count (mono, treated as a system metric). Everything below is quiet
+  and document-clean so the résumé reads fast.
+*/
+
+:root {
+  --paper: #fbfaf8;
+  --ink: #12161c;
+  --muted: #5b6470;
+  --hairline: #e5e3dc;
+  --navy: #16324f;      /* structure / headings */
+  --live: #1fa971;      /* reserved: live status + counter only */
+  --live-ink: #0c6b45;
+
+  --f-display: "Space Grotesk", system-ui, sans-serif;
+  --f-body: "Inter", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --maxw: 720px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--navy);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(22, 50, 79, 0.28);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+a:hover { border-bottom-color: var(--navy); }
+a:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Status bar (signature) ---------- */
+.statusbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--ink);
+  color: #e9ede9;
+  border-bottom: 1px solid #000;
+}
+.statusbar__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 9px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.status { display: inline-flex; align-items: center; gap: 7px; }
+.status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 0 0 rgba(31, 169, 113, 0.7);
+  animation: pulse 2.4s ease-out infinite;
+}
+.status__label { color: var(--live); font-weight: 700; }
+.statusbar__sep { color: #4a525c; }
+.statusbar__meta { color: #99a2ac; }
+.statusbar__meta b { color: #cfd6dc; font-weight: 500; }
+.statusbar__spacer { flex: 1; }
+
+.telemetry { display: inline-flex; align-items: baseline; gap: 8px; }
+.telemetry__label { color: #99a2ac; }
+.telemetry__value {
+  color: var(--live);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+  text-align: right;
+}
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(31, 169, 113, 0.6); }
+  70%  { box-shadow: 0 0 0 7px rgba(31, 169, 113, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(31, 169, 113, 0); }
+}
+
+/* ---------- Page shell ---------- */
+.page {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 56px 24px 8px;
+}
+
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+/* ---------- Hero ---------- */
+.hero { margin-bottom: 52px; }
+.hero__name {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 18px;
+  color: var(--navy);
+}
+.hero__line {
+  font-size: 1.06rem;
+  max-width: 60ch;
+  margin: 0 0 22px;
+  color: #2a3038;
+}
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--f-mono);
+  font-size: 13px;
+}
+.links a { border-bottom-width: 1px; }
+.links__loc { color: var(--muted); }
+
+/* ---------- Blocks ---------- */
+.block {
+  padding-top: 30px;
+  border-top: 1px solid var(--hairline);
+  margin-bottom: 30px;
+}
+.block__title { margin: 0 0 22px; }
+.tag {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--live-ink);
+  background: rgba(31, 169, 113, 0.1);
+  padding: 3px 9px;
+  border-radius: 3px;
+}
+
+/* ---------- Entries ---------- */
+.entry { margin-bottom: 26px; }
+.entry:last-child { margin-bottom: 0; }
+.entry__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 3px;
+}
+.entry__role {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 1.16rem;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.entry__dates,
+.entry__link {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.entry__org {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0 0 10px;
+}
+.entry__points {
+  margin: 0;
+  padding-left: 18px;
+}
+.entry__points li { margin-bottom: 7px; }
+.entry__points li:last-child { margin-bottom: 0; }
+
+.entry--flag {
+  background: #fff;
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--live);
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+.flag {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--live-ink);
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ---------- Certs / skills ---------- */
+.certs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.certs li { padding-left: 18px; position: relative; }
+.certs li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--live);
+  font-weight: 700;
+}
+.certs b { font-weight: 600; }
+
+.skills { display: grid; gap: 14px; }
+.skills__k {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 0 0 2px;
+}
+.skills__v { margin: 0; }
+
+/* ---------- Footer ---------- */
+.foot {
+  max-width: var(--maxw);
+  margin: 40px auto 0;
+  padding: 22px 24px 48px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--f-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+.foot a { color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px) {
+  .statusbar__meta:nth-of-type(2),
+  .statusbar__sep:nth-of-type(2) { display: none; }
+  .page { padding-top: 40px; }
+  .entry__head { flex-direction: column; gap: 2px; }
+  .entry__dates, .entry__link { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status__dot { animation: none; }
+  * { scroll-behavior: auto !important; }
+}

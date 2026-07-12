@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joshua Barradas — Cloud Engineer</title>
+  <meta
+    name="description"
+    content="Joshua Barradas — Cloud Engineer building serverless, infrastructure-as-code systems on AWS. Leeds, UK."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!--
+    ============================================================
+  -->
+
+  <!-- SIGNATURE: the site reporting its own live status + telemetry -->
+  <header class="statusbar" role="banner">
+    <div class="statusbar__inner">
+      <span class="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        <span class="status__label">LIVE</span>
+      </span>
+      <span class="statusbar__sep" aria-hidden="true">/</span>
+      <span class="statusbar__meta">region <b>eu-west-2</b></span>
+      <span class="statusbar__sep" aria-hidden="true">/</span>
+      <span class="statusbar__meta">served via CloudFront + S3</span>
+      <span class="statusbar__spacer"></span>
+      <span class="telemetry" aria-live="polite">
+        <span class="telemetry__label">visitors</span>
+        <span class="telemetry__value" id="visit-count">—</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- IDENTITY -->
+    <section class="hero">
+      <p class="eyebrow">// cloud engineer · leeds, uk</p>
+      <h1 class="hero__name">Joshua Barradas</h1>
+      <p class="hero__line">
+        I build serverless, infrastructure-as-code systems on AWS — and I keep
+        them running. This page is one of them: static site on private S3 behind
+        CloudFront, with a Lambda + DynamoDB visitor counter, deployed by
+        Terraform and GitHub Actions.
+      </p>
+      <nav class="links" aria-label="Contact and profiles">
+        <a href="https://github.com/Joshuabarradas234">GitHub</a>
+        <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
+        <a href="mailto:Joshuabrunobarradas@gmail.com">Email</a>
+        <span class="links__loc">Leeds, UK</span>
+      </nav>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">EXPERIENCE</span></h2>
+
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">Cloud Engineer</h3>
+          <span class="entry__dates">Aug 2025 - Jan 2026</span>
+        </div>
+        <p class="entry__org">RFID inventory platform · retail (40+ branches)</p>
+        <ul class="entry__points">
+          <li>
+            Production AWS platform for real-time stock visibility across a
+            multi-branch retailer: IoT Core rules engine, Lambda, DynamoDB, API
+            Gateway and S3, integrated with SAP (IDoc) and instrumented with
+            CloudWatch.
+          </li>
+          <li>Infrastructure defined in Terraform; deployed to af-south-1.</li>
+          <li>
+            Contributed to a measured reduction in branch stockouts of roughly
+            20%. <!-- keep this exact figure only if you can evidence it -->
+          </li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">Cloud Engineer — Integrations (contract)</h3>
+          <span class="entry__dates">Apr 2026 - Present</span>
+        </div>
+        <p class="entry__org">JobAdder OAuth 2.0 integration</p>
+        <ul class="entry__points">
+          <li>
+            Rebuilt a single-tenant OAuth integration into a multi-tenant
+            architecture: per-tenant token storage in DynamoDB and three Lambda
+            functions (callback, refresh, candidate fetch), provisioned via
+            CloudFormation.
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">PROJECTS</span></h2>
+
+      <article class="entry entry--flag">
+        <div class="entry__head">
+          <h3 class="entry__role">
+            Cloud Resume Challenge <span class="flag">flagship · live</span>
+          </h3>
+          <a class="entry__link" href="https://github.com/Joshuabarradas234/cloud-resume-challenge">repo →</a>
+        </div>
+        <p class="entry__org">The site you're reading now.</p>
+        <ul class="entry__points">
+          <li>
+            Private S3 origin behind CloudFront (Origin Access Control), custom
+            domain over HTTPS with an ACM certificate.
+          </li>
+          <li>
+            Visitor counter: API Gateway → Lambda → DynamoDB, using an atomic
+            update so no visit is ever lost under concurrency.
+          </li>
+          <li>
+            100% Terraform with remote state; GitHub Actions CI/CD that tests,
+            applies, syncs and invalidates on every push — authenticating to AWS
+            via OIDC, with no long-lived keys.
+          </li>
+        </ul>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">intellidoc-engine</h3>
+          <a class="entry__link" href="https://github.com/Joshuabarradas234/intellidoc-engine">repo →</a>
+        </div>
+        <p class="entry__org">Receipt / document processing pipeline on AWS.</p>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">jobadder-oauth-aws</h3>
+          <a class="entry__link" href="https://github.com/Joshuabarradas234/jobadder-oauth-aws">repo →</a>
+        </div>
+        <p class="entry__org">Multi-tenant OAuth 2.0 token service (sanitised, with live demo).</p>
+      </article>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">CERTIFICATIONS</span></h2>
+      <ul class="certs">
+        <li><b>AWS Certified AI Practitioner</b></li>
+        <li><b>HashiCorp Terraform Associate</b></li>
+        <li><b>AWS Solutions Architect Associate (SAA-C03)</b></li>
+        <!--
+          Add AWS Solutions Architect Associate (SAA-C03) HERE only once you
+          have passed and hold the badge. Do not list it as held until then.
+        -->
+      </ul>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">SKILLS</span></h2>
+      <div class="skills">
+        <div class="skills__group">
+          <p class="skills__k">AWS</p>
+          <p class="skills__v">Lambda · DynamoDB · API Gateway · S3 · CloudFront · Route 53 · IoT Core · CloudWatch</p>
+        </div>
+        <div class="skills__group">
+          <p class="skills__k">IaC &amp; CI/CD</p>
+          <p class="skills__v">Terraform · CloudFormation · GitHub Actions · OIDC</p>
+        </div>
+        <div class="skills__group">
+          <p class="skills__k">Languages</p>
+          <p class="skills__v">Python · Bash · SQL</p>
+        </div>
+        <div class="skills__group">
+          <p class="skills__k">Integration</p>
+          <p class="skills__v">SAP (IDoc) · REST APIs · OAuth 2.0</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">EDUCATION</span></h2>
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">BSc Business with Marketing</h3>
+          <span class="entry__dates">2025</span>
+        </div>
+        <p class="entry__org">University of Leeds</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      Built with S3, CloudFront, Route&nbsp;53, API&nbsp;Gateway, Lambda,
+      DynamoDB, Terraform and GitHub&nbsp;Actions.
+      <a href="https://github.com/Joshuabarradas234/cloud-resume-challenge">Source</a>.
+    </p>
+  </footer>
+
+  <script src="counter.js" defer></script>
+</body>
+</html>
