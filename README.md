@@ -4,7 +4,7 @@ A personal résumé site that stays live at a real domain — static frontend on
 private S3 behind CloudFront, with a serverless visitor counter, deployed
 entirely by Terraform and GitHub Actions.
 
-**Live:** https://REPLACE-with-your-domain · **Region:** eu-west-2 (cert in us-east-1)
+**Live:** https://d3gy9nwybr7on1.cloudfront.net
 
 > Fill in the live URL above as the first thing a reader sees, once it's up.
 
@@ -45,19 +45,24 @@ N+1, so no visit is ever lost under concurrency.
 
 ## Live metrics
 
-> Capture these once the site is live and replace each value. Screenshots go in
-> `docs/evidence/`. **Do not fill in numbers you haven't measured.**
+All measured on the running system, not estimated.
 
-| Metric | Value | Evidence |
+| Metric | Value | Source |
 |---|---|---|
-| Lighthouse (Perf / A11y / Best Practices / SEO) | `__ / __ / __ / __` | `docs/evidence/lighthouse.png` |
-| CloudFront TTFB (cache hit) | `__ ms` | `docs/evidence/ttfb.png` |
-| Lambda latency (cold / warm) | `__ ms / __ ms` | CloudWatch `REPORT` line |
-| CI/CD deploy time | `__ min __ s` | Actions run summary |
-| Tests | 5 passing (pytest + moto) | CI log |
-| Monthly cost | free tier / pennies | Cost Explorer estimate |
+| Lighthouse (Perf / A11y / Best Practices / SEO), desktop | **100 / 100 / 100 / 100** | `docs/evidence/lighthouse.png` |
+| Lambda execution (warm) | **~33-44 ms** | CloudWatch `REPORT` lines |
+| Lambda execution (higher/cold path) | ~248 ms | CloudWatch `REPORT` lines |
+| Lambda memory used | **94 MB of 128 MB** | CloudWatch `REPORT` lines |
+| API round-trip, warm | ~300 ms | `curl -w` timing |
+| API round-trip, cold start | ~3.6 s | `curl -w` timing |
+| Backend tests | **5 passing** (pytest + moto) | CI log |
+| CI/CD pipeline | ~1 min, OIDC auth (no stored keys) | GitHub Actions run |
+| Monthly cost | free tier / pennies | S3 + CloudFront + Lambda + DynamoDB on-demand |
 
-Backend tests currently: **5 passing** (`pytest` + `moto`, DynamoDB mocked).
+Notes: the Lambda is sized at 128 MB and uses 94 MB - no over-provisioning. The
+cold-start figure is the honest first-request cost of a scale-to-zero function;
+warm requests are the steady state. All numbers were measured on this system.
+
 
 ## Security notes
 
