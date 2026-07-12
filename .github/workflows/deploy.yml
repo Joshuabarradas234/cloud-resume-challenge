@@ -52,7 +52,7 @@ jobs:
         run: terraform -chdir=${{ env.TF_DIR }} validate
 
       - name: Terraform apply
-        run: terraform -chdir=${{ env.TF_DIR }} apply -auto-approve
+        run: terraform -chdir=${{ env.TF_DIR }} apply -auto-approve -var="github_repo=${{ github.repository }}"
 
       - name: Read outputs
         id: tf
