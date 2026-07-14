@@ -4,7 +4,7 @@ A personal résumé site that stays live at a real domain — static frontend on
 private S3 behind CloudFront, with a serverless visitor counter, deployed
 entirely by Terraform and GitHub Actions.
 
-**Live:** https://d3gy9nwybr7on1.cloudfront.net
+**Live:** https://joshuabarradas.com
 
 > Fill in the live URL above as the first thing a reader sees, once it's up.
 
