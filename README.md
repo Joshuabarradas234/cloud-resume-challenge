@@ -6,8 +6,6 @@ entirely by Terraform and GitHub Actions.
 
 **Live:** https://joshuabarradas.com
 
-> Fill in the live URL above as the first thing a reader sees, once it's up.
-
 ---
 
 ## What it is
