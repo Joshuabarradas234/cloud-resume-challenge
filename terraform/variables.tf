@@ -13,19 +13,19 @@ variable "project" {
 variable "use_custom_domain" {
   description = "true = serve on a custom domain (ACM + Route 53). false = deploy on the default *.cloudfront.net URL, no domain required."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "domain_name" {
   description = "Full site domain, e.g. joshuabarradas.com. Only used when use_custom_domain = true."
   type        = string
-  default     = ""
+  default     = "joshuabarradas.com"
 }
 
 variable "hosted_zone_name" {
   description = "An existing Route 53 public hosted zone, e.g. joshuabarradas.com. Only used when use_custom_domain = true."
   type        = string
-  default     = ""
+  default     = "joshuabarradas.com"
 }
 
 variable "github_repo" {
