@@ -89,10 +89,7 @@
         <p class="entry__org">JobAdder OAuth 2.0 integration</p>
         <ul class="entry__points">
           <li>
-            Rebuilt a single-tenant OAuth integration into a multi-tenant
-            architecture: per-tenant token storage in DynamoDB and three Lambda
-            functions (callback, refresh, candidate fetch), provisioned via
-            CloudFormation.
+            Built the JobAdder OAuth 2.0 token lifecycle on AWS — three Lambda functions (callback, refresh, candidate fetch), tokens encrypted in Secrets Manager, refreshed automatically ahead of expiry, provisioned via CloudFormation. Designed a multi-tenant evolution as the documented next step.
           </li>
         </ul>
       </article>
