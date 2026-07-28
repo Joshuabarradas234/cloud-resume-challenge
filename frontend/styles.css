@@ -307,3 +307,160 @@ a { color: var(--navy-700); text-decoration: none; }
 }
 .banner img { display: block; width: 100%; height: auto; border-radius: 6px; }
 .masthead__inner--cover .masthead__line { max-width: 62ch; }
+
+/* ============================================================
+   MOTION — subtle, professional, and fully reduced-motion safe.
+   Final (visible) state is the default; motion only applies when
+   the visitor has no reduced-motion preference.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* masthead entrance on load */
+  .masthead .banner,
+  .masthead__eyebrow,
+  .masthead__line,
+  .masthead__links {
+    opacity: 0;
+    animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .masthead .banner      { animation-delay: .05s; }
+  .masthead__eyebrow     { animation-delay: .18s; }
+  .masthead__line        { animation-delay: .28s; }
+  .masthead__links       { animation-delay: .38s; }
+
+  /* scroll reveal for sections */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* card hover lift */
+  .entry { transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+  .entry:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: #d7d1c6; }
+
+  /* architecture diagram draws itself in when scrolled to */
+  .diagram .dgm-box rect { opacity: 0; }
+  .diagram .dgm-label text,
+  .diagram .dgm-note,
+  .diagram .dgm-lane { opacity: 0; }
+  .diagram .dgm-flow line { stroke-dasharray: 64; stroke-dashoffset: 64; }
+
+  .diagram.is-in .dgm-box rect     { animation: fadein .45s ease forwards; }
+  .diagram.is-in .dgm-label text,
+  .diagram.is-in .dgm-note,
+  .diagram.is-in .dgm-lane         { animation: fadein .5s ease .25s forwards; }
+  .diagram.is-in .dgm-flow line    { animation: draw .55s ease .2s forwards; }
+  /* left-to-right feel for the boxes */
+  .diagram.is-in .dgm-box rect:nth-child(1) { animation-delay: .00s; }
+  .diagram.is-in .dgm-box rect:nth-child(2) { animation-delay: .08s; }
+  .diagram.is-in .dgm-box rect:nth-child(3) { animation-delay: .16s; }
+  .diagram.is-in .dgm-box rect:nth-child(4) { animation-delay: .24s; }
+}
+
+@keyframes rise   { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes fadein { to { opacity: 1; } }
+@keyframes draw   { to { stroke-dashoffset: 0; } }
+
+/* ============================================================
+   BOLD BANDS — alternating navy / paper full-bleed sections
+   ============================================================ */
+.band { width: 100%; }
+.band--paper { background: var(--paper); }
+.band--navy {
+  background:
+    radial-gradient(120% 160% at 90% -20%, #143755 0%, rgba(20,55,85,0) 55%),
+    var(--navy-900);
+  color: var(--on-band);
+}
+.band__inner { max-width: var(--maxw); margin: 0 auto; padding: 46px 24px; }
+.band--paper + .band--paper .band__inner { padding-top: 6px; }
+.band__inner > .block { padding-top: 0; margin-bottom: 0; }
+.band__inner > .block + .block { padding-top: 34px; }
+
+/* section titles + text on navy */
+.band--navy .block__title::after { background: rgba(255,255,255,0.12); }
+.band--navy .tag { color: #8fe6bd; background: rgba(31,169,113,0.16); }
+.band--navy .block__lede { color: #cdd6df; }
+.band--navy .block__lede a { color: #fff; border-bottom-color: rgba(255,255,255,0.4); }
+
+/* capabilities chips (skills on navy) */
+.caps { display: grid; gap: 20px; }
+.caps__k { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #7fdcb0; margin: 0 0 9px; }
+.caps__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 0.85rem; padding: 6px 11px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); color: var(--on-band); }
+
+/* certs on navy */
+.certs--onband li { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.14); color: var(--on-band); box-shadow: none; }
+.certs--onband li::before { background: rgba(31,169,113,0.20); color: #8fe6bd; }
+
+/* speaking + languages on navy */
+.meta-list { display: grid; gap: 14px; margin-top: 22px; }
+.meta-list__k { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #7fdcb0; margin: 0 0 3px; }
+.meta-list__v { margin: 0; color: #cdd6df; }
+
+/* footer as navy band */
+.foot.band--navy { border-top: 0; color: var(--on-band-dim); margin: 0; max-width: none; padding: 0; }
+.foot.band--navy .band__inner { padding: 26px 24px 40px; }
+.foot.band--navy a { color: var(--on-band-dim); border-bottom: 1px solid rgba(255,255,255,0.28); }
+.foot.band--navy a:hover { color: #fff; }
+
+/* ============================================================
+   FULL-NAVY THEME — all bands dark; cards become lifted navy
+   panels, diagram gets a dark variant, text flips to high-contrast
+   off-white. Green stays the single accent.
+   ============================================================ */
+
+/* flat navy for stacked bands; keep the glow only on the masthead */
+.band--navy { background: var(--navy-900); }
+.masthead.band--navy {
+  background:
+    radial-gradient(120% 160% at 90% -20%, #143755 0%, rgba(20,55,85,0) 55%),
+    var(--navy-900);
+}
+/* hairline separators so stacked navy bands stay defined */
+.band--navy + .band--navy,
+.foot.band--navy { border-top: 1px solid rgba(255,255,255,0.07); }
+/* faint alternating lift so the page isn't one flat slab */
+main > .band--navy:nth-of-type(even) { background: #0e2740; }
+
+/* cards → lifted navy panels */
+.band--navy .entry {
+  background: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+.band--navy .entry:hover {
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,0.8);
+}
+.band--navy .entry--flag { border-left: 3px solid var(--live); }
+.band--navy .entry__role { color: #f4f7f9; }
+.band--navy .entry__org  { color: #9fb0c0; }
+.band--navy .entry__points, .band--navy .entry__points li { color: #cdd6df; }
+.band--navy .entry__dates { color: #93a0b2; }
+.band--navy .entry__link  { color: #cdd6df; border-bottom: 1px solid rgba(255,255,255,0.3); }
+.band--navy .entry__link:hover { color: #fff; border-color: #fff; }
+.band--navy .flag { color: #8fe6bd; background: rgba(31,169,113,0.16); }
+
+/* architecture diagram → dark variant */
+.band--navy .dgm-box rect { fill: rgba(255,255,255,0.05); stroke: rgba(255,255,255,0.18); }
+.band--navy .dgm-box rect.dgm-box--edge { stroke: #cfe8ff; }
+.band--navy .dgm-box rect.dgm-box--data { stroke: var(--live); }
+.band--navy .dgm-label text { fill: #e6ecf2; }
+.band--navy .dgm-lane { fill: #8fa0b2; }
+.band--navy .dgm-flow line { stroke: #9aa7b6; }
+.band--navy .dgm-note { fill: #9fb0c0; }
+.band--navy .dgm-note--data { fill: #8fe6bd; }
+.band--navy .diagram figcaption { color: #9fb0c0; }
+
+/* writing teaser cards → dark */
+.band--navy .postlist__link {
+  background: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.10);
+  box-shadow: none;
+}
+.band--navy .postlist__link:hover {
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 18px 40px -22px rgba(0,0,0,0.8);
+}
+.band--navy .postlist__title { color: #f4f7f9; }
+.band--navy .postlist__link:hover .postlist__title { color: #fff; }
+.band--navy .postlist__meta { color: #93a0b2; }
