@@ -49,6 +49,7 @@
         Terraform and GitHub Actions.
       </p>
       <nav class="links" aria-label="Contact and profiles">
+        <a href="/writing.html">Writing</a>
         <a href="https://github.com/Joshuabarradas234">GitHub</a>
         <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
         <a href="mailto:Joshuabrunobarradas@gmail.com">Email</a>
@@ -127,6 +128,93 @@
             via OIDC, with no long-lived keys.
           </li>
         </ul>
+
+        <!-- Architecture diagram: two request paths (delivery + counter) -->
+        <figure class="diagram" role="group" aria-labelledby="diagram-cap">
+          <svg viewBox="0 0 700 232" role="img"
+               aria-label="Architecture: the browser reaches the site through Route 53, CloudFront and a private S3 bucket; the visitor counter runs from page JavaScript through API Gateway to a Lambda function and a DynamoDB table."
+               xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                      markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0" />
+              </marker>
+            </defs>
+
+            <text class="dgm-lane" x="16" y="20">DELIVERY</text>
+            <text class="dgm-lane" x="16" y="132">COUNTER</text>
+
+            <g class="dgm-flow">
+              <line x1="146" y1="52" x2="182" y2="52" marker-end="url(#arrow)" />
+              <line x1="316" y1="52" x2="352" y2="52" marker-end="url(#arrow)" />
+              <line x1="486" y1="52" x2="522" y2="52" marker-end="url(#arrow)" />
+            </g>
+            <g class="dgm-box">
+              <rect x="16"  y="32" width="130" height="40" rx="6" />
+              <rect x="182" y="32" width="130" height="40" rx="6" />
+              <rect x="352" y="32" width="130" height="40" rx="6" />
+              <rect x="522" y="32" width="162" height="40" rx="6" class="dgm-box--edge" />
+            </g>
+            <g class="dgm-label">
+              <text x="81"  y="56">Browser</text>
+              <text x="247" y="56">Route 53</text>
+              <text x="417" y="56">CloudFront</text>
+              <text x="603" y="56">S3 · private</text>
+            </g>
+            <text class="dgm-note" x="417" y="88">HTTPS · ACM cert · OAC</text>
+
+            <line class="dgm-flow" x1="81" y1="72" x2="81" y2="144" marker-end="url(#arrow)" />
+            <text class="dgm-note" x="88" y="112" text-anchor="start">POST /count</text>
+
+            <g class="dgm-flow">
+              <line x1="146" y1="164" x2="182" y2="164" marker-end="url(#arrow)" />
+              <line x1="330" y1="164" x2="366" y2="164" marker-end="url(#arrow)" />
+              <line x1="500" y1="164" x2="536" y2="164" marker-end="url(#arrow)" />
+            </g>
+            <g class="dgm-box">
+              <rect x="16"  y="144" width="130" height="40" rx="6" />
+              <rect x="182" y="144" width="148" height="40" rx="6" />
+              <rect x="366" y="144" width="134" height="40" rx="6" />
+              <rect x="536" y="144" width="148" height="40" rx="6" class="dgm-box--data" />
+            </g>
+            <g class="dgm-label">
+              <text x="81"  y="168">Page JS</text>
+              <text x="256" y="168">API Gateway</text>
+              <text x="433" y="168">Lambda</text>
+              <text x="610" y="168">DynamoDB</text>
+            </g>
+            <text class="dgm-note dgm-note--data" x="610" y="200">atomic ADD count 1</text>
+          </svg>
+          <figcaption id="diagram-cap">
+            Two paths: the page is delivered from a private S3 bucket through
+            CloudFront; the counter runs server-side through API Gateway, Lambda
+            and a single atomic DynamoDB write.
+          </figcaption>
+        </figure>
+      </article>
+
+      <article class="entry">
+        <div class="entry__head">
+          <h3 class="entry__role">jobadder-oauth-aws</h3>
+          <a class="entry__link" href="https://github.com/Joshuabarradas234/jobadder-oauth-aws">repo →</a>
+        </div>
+        <p class="entry__org">OAuth 2.0 token service on AWS · sanitised, with live demo.</p>
+        <ul class="entry__points">
+          <li>
+            Three Lambda functions cover the token lifecycle (callback, refresh,
+            candidate fetch); access and refresh tokens are encrypted in Secrets
+            Manager and refreshed automatically ahead of expiry.
+          </li>
+          <li>
+            Provisioned end-to-end with CloudFormation; the public repo is a
+            sanitised build with a working demo.
+          </li>
+          <li>
+            Design decision: shipped single-tenant first for a clean, reviewable
+            core, with a multi-tenant evolution (per-tenant token isolation)
+            documented as the next step.
+          </li>
+        </ul>
       </article>
 
       <article class="entry">
@@ -135,16 +223,31 @@
           <a class="entry__link" href="https://github.com/Joshuabarradas234/intellidoc-engine">repo →</a>
         </div>
         <p class="entry__org">Receipt / document processing pipeline on AWS.</p>
+        <!--
+          TODO (Joshua): expand this to match the others — 2-3 bullets.
+          Send me: which AWS services it uses (Textract? S3 events? Lambda?
+          Step Functions? DynamoDB?), what it does end-to-end, and ONE design
+          decision (why X over Y). I didn't invent details for a real repo —
+          give me those and I'll write the bullets in this same style.
+        -->
       </article>
+    </section>
 
-      <article class="entry">
-        <div class="entry__head">
-          <h3 class="entry__role">jobadder-oauth-aws</h3>
-          <a class="entry__link" href="https://github.com/Joshuabarradas234/jobadder-oauth-aws">repo →</a>
-        </div>
-        <p class="entry__org">Single-tenant OAuth 2.0 token service on AWS (sanitised, with live demo); multi-tenant evolution documented as the next step.
-</p>
-      </article>
+    <!-- WRITING -->
+    <section class="block">
+      <h2 class="block__title"><span class="tag">WRITING</span></h2>
+      <p class="block__lede">
+        Build notes and decisions — how these systems are put together, and what
+        broke along the way. <a href="/writing.html">All posts →</a>
+      </p>
+      <ul class="postlist">
+        <li class="postlist__item">
+          <a class="postlist__link" href="/writing/how-i-built-this-site.html">
+            <span class="postlist__title">How I built this site — private S3, a serverless counter, and one bug that kept deleting my domain</span>
+            <span class="postlist__meta">Cloud Resume Challenge · deep-dive</span>
+          </a>
+        </li>
+      </ul>
     </section>
 
     <!-- CERTIFICATIONS -->
