@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The $32 line in my architecture — Joshua Barradas</title>
+  <meta name="description" content="A containerised API on ECS Fargate in a custom multi-AZ VPC, with three-tier security groups — and the Boto3 cost-audit tool that found the biggest line on the bill wasn't compute or the database." />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="The $32 line in my architecture — a Fargate VPC and auditing my own cloud bill" />
+  <meta property="og:description" content="Three-tier security groups, a multi-AZ VPC, and the cost-audit tool that flagged a NAT gateway as the top cost driver." />
+  <meta property="og:url" content="https://joshuabarradas.com/writing/ecs-fargate-vpc-platform.html" />
+  <meta property="og:image" content="https://joshuabarradas.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://joshuabarradas.com/og.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="../favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="statusbar" role="banner">
+    <div class="statusbar__inner">
+      <span class="status"><span class="status__dot" aria-hidden="true"></span><span class="status__label">LIVE</span></span>
+      <span class="statusbar__sep" aria-hidden="true">/</span>
+      <span class="statusbar__meta">writing</span>
+      <span class="statusbar__spacer"></span>
+      <span class="statusbar__meta">joshuabarradas.com</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <article class="article">
+      <a class="article__back" href="/writing.html">← all posts</a>
+      <p class="article__meta">ECS Fargate VPC Platform · deep-dive</p>
+      <h1 class="article__title">The $32 line in my architecture — a Fargate VPC, three-tier security groups, and auditing my own cloud bill</h1>
+
+      <div class="article__body">
+        <p>
+          I built a containerised REST API on ECS Fargate, sitting inside a
+          custom multi-AZ VPC, all defined in Terraform and deployed live. Then I
+          wrote a small tool to audit what it actually cost to run — and the
+          single biggest line on the bill wasn't the compute, and it wasn't the
+          database. It was a NAT gateway, quietly charging about $32 a month to
+          do a job I could have done another way. This is how the thing is built,
+          and what that number taught me.
+        </p>
+
+        <h2>The network came first</h2>
+        <p>
+          It would have been quicker to drop the API into a default VPC and move
+          on. I built a custom one instead — around 46 Terraform resources — with
+          public and private subnets spread across two Availability Zones. The
+          point of the exercise was to design the network deliberately rather than
+          inherit whatever AWS gives you by default, because in real work the VPC
+          is where a lot of the security and cost decisions actually live.
+        </p>
+
+        <h2>Three tiers, each trusting only the one in front</h2>
+        <p>
+          Security groups are the part I'm most deliberate about. Rather than one
+          permissive group, there are three, arranged as tiers:
+        </p>
+        <ul>
+          <li>The <strong>load balancer</strong> tier accepts traffic from the internet on HTTPS.</li>
+          <li>The <strong>application</strong> tier (the Fargate tasks) accepts traffic <em>only</em> from the load balancer's security group — nothing else can reach it.</li>
+          <li>The <strong>data</strong> tier (RDS PostgreSQL) accepts traffic <em>only</em> from the application tier.</li>
+        </ul>
+        <p>
+          Each tier references the security group in front of it rather than an IP
+          range, so the rules stay correct even as things scale. The effect is
+          least-privilege at the network layer: if the app tier were ever
+          compromised, it still can't reach anything the design didn't explicitly
+          allow, and the database is never reachable from the internet at all.
+        </p>
+
+        <h2>Multi-AZ, because "it works" and "it stays working" are different</h2>
+        <p>
+          The Fargate service and the RDS instance are spread across two
+          Availability Zones. For a personal project that's arguably overkill —
+          but the habit is the point. Designing for the loss of an AZ from the
+          start is cheaper than retrofitting it, and it's the default posture I'd
+          want on anything real.
+        </p>
+
+        <h2>Then I audited my own bill</h2>
+        <p>
+          Once it was running, I wrote a small <strong>Boto3 cost-audit tool</strong>
+          that walks the account, lists the resources this stack is running, and
+          estimates the monthly cost of each. I wanted to know where the money
+          actually goes, not guess.
+        </p>
+        <div class="article__callout">
+          <p>
+            The top line wasn't Fargate and it wasn't RDS. It was the
+            <strong>NAT gateway — about $32/month</strong>, before a single byte
+            of data-processing charge. NAT gateways bill an hourly rate just for
+            existing, so in a small always-on stack they can quietly out-cost the
+            things doing the actual work.
+          </p>
+        </div>
+
+        <h2>The decision that came out of it</h2>
+        <p>
+          The private subnets needed outbound access mainly to reach AWS APIs. A
+          NAT gateway is one way to give them that — but for AWS-only traffic,
+          <strong>VPC endpoints</strong> (interface and gateway endpoints) can
+          replace most of what the NAT was doing, at a lower fixed cost, while
+          keeping the traffic on the AWS network instead of routing it out and
+          back. That's the change I'd make next, and the audit tool is what turned
+          it from an assumption into a measured decision.
+        </p>
+        <p>
+          The broader lesson stuck: cost is an architectural property, not an
+          afterthought you discover on the invoice. Building the audit tool made
+          it something I can see while I design, which is where it belongs.
+        </p>
+
+        <h2>What's in the box</h2>
+        <p>
+          FastAPI in a container on ECS Fargate, behind an Application Load
+          Balancer, talking to RDS PostgreSQL, inside the custom VPC — all
+          Terraform, with 18 tests and CI, deployed live and verified. The code
+          and the cost-audit tool are on
+          <a href="https://github.com/Joshuabarradas234/ecs-fargate-vpc-platform">GitHub</a>.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <p>
+      <a href="/">joshuabarradas.com</a> ·
+      <a href="https://github.com/Joshuabarradas234">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
+    </p>
+  </footer>
+</body>
+</html>
