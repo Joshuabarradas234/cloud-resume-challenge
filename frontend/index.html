@@ -4,16 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Joshua Barradas — Cloud Engineer</title>
-  <meta
-    name="description"
-    content="Joshua Barradas — Cloud Engineer building serverless, infrastructure-as-code systems on AWS. Leeds, UK."
-  />
+  <meta name="description" content="Joshua Barradas — Cloud Engineer building serverless, infrastructure-as-code systems on AWS. Leeds, UK." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -37,26 +31,31 @@
     </div>
   </header>
 
-  <main class="page">
-    <!-- IDENTITY -->
-    <section class="hero">
-      <p class="eyebrow">// cloud engineer · leeds, uk</p>
-      <h1 class="hero__name">Joshua Barradas</h1>
-      <p class="hero__line">
+  <!-- MASTHEAD: banner cover + tagline -->
+  <section class="masthead">
+    <div class="masthead__inner masthead__inner--cover">
+      <h1 class="visually-hidden">Joshua Barradas — Cloud Engineer, Leeds, UK</h1>
+      <figure class="banner">
+        <img src="/banner.png" alt="Joshua Barradas" />
+      </figure>
+      <p class="masthead__eyebrow">// cloud engineer · leeds, uk</p>
+      <p class="masthead__line">
         I build serverless, infrastructure-as-code systems on AWS — and I keep
-        them running. This page is one of them: static site on private S3 behind
-        CloudFront, with a Lambda + DynamoDB visitor counter, deployed by
-        Terraform and GitHub Actions.
+        them running. This page is one of them: static site on private S3
+        behind CloudFront, with a Lambda + DynamoDB visitor counter, deployed
+        by Terraform and GitHub Actions.
       </p>
-      <nav class="links" aria-label="Contact and profiles">
+      <nav class="masthead__links" aria-label="Contact and profiles">
         <a href="/writing.html">Writing</a>
         <a href="https://github.com/Joshuabarradas234">GitHub</a>
         <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
         <a href="mailto:Joshuabrunobarradas@gmail.com">Email</a>
-        <span class="links__loc">Leeds, UK</span>
+        <span class="masthead__loc">Leeds, UK</span>
       </nav>
-    </section>
+    </div>
+  </section>
 
+  <main class="page">
     <!-- EXPERIENCE -->
     <section class="block">
       <h2 class="block__title"><span class="tag">EXPERIENCE</span></h2>
@@ -129,21 +128,17 @@
           </li>
         </ul>
 
-        <!-- Architecture diagram: two request paths (delivery + counter) -->
         <figure class="diagram" role="group" aria-labelledby="diagram-cap">
           <svg viewBox="0 0 700 232" role="img"
                aria-label="Architecture: the browser reaches the site through Route 53, CloudFront and a private S3 bucket; the visitor counter runs from page JavaScript through API Gateway to a Lambda function and a DynamoDB table."
                xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
-                      markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                 <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0" />
               </marker>
             </defs>
-
             <text class="dgm-lane" x="16" y="20">DELIVERY</text>
             <text class="dgm-lane" x="16" y="132">COUNTER</text>
-
             <g class="dgm-flow">
               <line x1="146" y1="52" x2="182" y2="52" marker-end="url(#arrow)" />
               <line x1="316" y1="52" x2="352" y2="52" marker-end="url(#arrow)" />
@@ -162,10 +157,8 @@
               <text x="603" y="56">S3 · private</text>
             </g>
             <text class="dgm-note" x="417" y="88">HTTPS · ACM cert · OAC</text>
-
             <line class="dgm-flow" x1="81" y1="72" x2="81" y2="144" marker-end="url(#arrow)" />
             <text class="dgm-note" x="88" y="112" text-anchor="start">POST /count</text>
-
             <g class="dgm-flow">
               <line x1="146" y1="164" x2="182" y2="164" marker-end="url(#arrow)" />
               <line x1="330" y1="164" x2="366" y2="164" marker-end="url(#arrow)" />
@@ -224,11 +217,10 @@
         </div>
         <p class="entry__org">Receipt / document processing pipeline on AWS.</p>
         <!--
-          TODO (Joshua): expand this to match the others — 2-3 bullets.
+          TODO (Joshua): expand to match the others — 2-3 bullets.
           Send me: which AWS services it uses (Textract? S3 events? Lambda?
           Step Functions? DynamoDB?), what it does end-to-end, and ONE design
-          decision (why X over Y). I didn't invent details for a real repo —
-          give me those and I'll write the bullets in this same style.
+          decision (why X over Y). I didn't invent details for a real repo.
         -->
       </article>
     </section>
@@ -241,7 +233,7 @@
         broke along the way. <a href="/writing.html">All posts →</a>
       </p>
       <ul class="postlist">
-        <li class="postlist__item">
+        <li>
           <a class="postlist__link" href="/writing/how-i-built-this-site.html">
             <span class="postlist__title">How I built this site — private S3, a serverless counter, and one bug that kept deleting my domain</span>
             <span class="postlist__meta">Cloud Resume Challenge · deep-dive</span>
@@ -254,9 +246,9 @@
     <section class="block">
       <h2 class="block__title"><span class="tag">CERTIFICATIONS</span></h2>
       <ul class="certs">
-        <li><b>AWS Certified AI Practitioner</b></li>
-        <li><b>HashiCorp Terraform Associate</b></li>
-        <li><b>AWS Solutions Architect Associate (SAA-C03)</b></li>
+        <li>AWS Certified AI Practitioner</li>
+        <li>HashiCorp Terraform Associate</li>
+        <li>AWS Solutions Architect Associate (SAA-C03)</li>
       </ul>
     </section>
 
