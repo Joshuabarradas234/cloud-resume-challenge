@@ -486,3 +486,17 @@ main > .band--navy:nth-of-type(even) { background: #0e2740; }
 }
 .btn-cv:hover { background: #26c084; transform: translateY(-1px); color: var(--navy-900); }
 @media (prefers-reduced-motion: reduce) { .avail__dot { animation: none; } .btn-cv:hover { transform: none; } }
+
+/* ---------- References / testimonials ---------- */
+.quotes { display: grid; gap: 14px; }
+.quote {
+  margin: 0; background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.10); border-left: 3px solid var(--live);
+  border-radius: 10px; padding: 20px 22px;
+}
+.quote__text { margin: 0 0 14px; color: #e6ecf2; font-size: 1.02rem; line-height: 1.62; }
+.quote__by { display: flex; flex-direction: column; gap: 2px; }
+.quote__name { font-family: var(--f-display); font-weight: 600; color: #fff; font-size: 0.98rem; }
+.quote__role { font-family: var(--f-mono); font-size: 12px; color: #93a0b2; }
+.band--navy .quote { transition: border-color .16s ease, box-shadow .16s ease; }
+.band--navy .quote:hover { border-color: rgba(255,255,255,0.22); box-shadow: 0 18px 40px -22px rgba(0,0,0,0.8); }
