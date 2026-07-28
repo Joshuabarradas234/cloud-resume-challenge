@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I built this site — Joshua Barradas</title>
+  <meta name="description" content="A decision-by-decision walkthrough of a serverless resume site on AWS: private S3 behind CloudFront, an atomic DynamoDB visitor counter, full Terraform and OIDC CI/CD — and the bug that kept deleting the domain." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="statusbar" role="banner">
+    <div class="statusbar__inner">
+      <span class="status">
+        <span class="status__dot" aria-hidden="true"></span>
+        <span class="status__label">LIVE</span>
+      </span>
+      <span class="statusbar__sep" aria-hidden="true">/</span>
+      <span class="statusbar__meta">writing</span>
+      <span class="statusbar__spacer"></span>
+      <span class="statusbar__meta">joshuabarradas.com</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <article class="article">
+      <a class="article__back" href="/writing.html">← all posts</a>
+
+      <p class="article__meta">Cloud Resume Challenge · deep-dive</p>
+      <h1 class="article__title">How I built this site — private S3, a serverless counter, and one bug that kept deleting my domain</h1>
+
+      <div class="article__body">
+        <p>
+          This site is a résumé with a job: stay permanently live at a real
+          domain, cost pennies, and be rebuildable from nothing but code. No
+          servers, no console clicking, no long-lived credentials anywhere. This
+          is how it's put together, and why I made the calls I did — including
+          the mistake that took the domain offline on every deploy until I
+          worked out what was happening.
+        </p>
+
+        <h2>The delivery path: a private bucket, not a public one</h2>
+        <p>
+          The obvious way to host a static site on AWS is an S3 bucket with
+          static website hosting turned on. I didn't do that. The bucket here is
+          <strong>fully private</strong> — public access blocked at every level —
+          and the only thing allowed to read it is CloudFront, through Origin
+          Access Control (OAC). The bucket policy grants read access to the
+          CloudFront distribution and nothing else.
+        </p>
+        <p>
+          Why the extra step? A public website bucket serves over plain HTTP and
+          exposes the origin directly. Putting CloudFront in front with a private
+          origin gives me HTTPS with an ACM certificate, a CDN, and an origin
+          that simply can't be hit directly. It's the pattern I'd use on real
+          work, so it's the pattern I used here.
+        </p>
+
+        <h2>The counter: one atomic write, no read-before-write</h2>
+        <p>
+          The visitor number in the status bar is the one dynamic thing on the
+          page. On load, the browser sends a single <code>POST /count</code> to
+          an HTTP API on API Gateway, which invokes a Python Lambda. The Lambda
+          runs one DynamoDB <code>UpdateItem</code> with <code>ADD count 1</code>
+          and returns the new value.
+        </p>
+        <p>
+          The detail that matters is that it's a <strong>single atomic
+          operation</strong>. The tempting version is to read the current count,
+          add one, and write it back — but that's a race. Two visitors landing at
+          the same time both read <em>N</em> and both write <em>N+1</em>, and one
+          visit silently vanishes. Pushing the increment server-side into one
+          atomic <code>ADD</code> means the database does the maths, and no visit
+          is ever lost no matter how many people arrive at once.
+        </p>
+        <div class="article__callout">
+          <p>
+            The Lambda role is least-privilege on purpose: it can write its own
+            logs and run <code>UpdateItem</code> on exactly one table. Nothing
+            else. If it were ever compromised, that's the whole blast radius.
+          </p>
+        </div>
+
+        <h2>All of it is Terraform — including the state backend</h2>
+        <p>
+          Every piece above is defined in Terraform with remote state in S3.
+          That creates a chicken-and-egg problem people hit constantly: Terraform
+          wants to store its state in an S3 bucket, but the bucket has to exist
+          <em>before</em> the first <code>init</code>. I didn't want to create
+          that by hand in the console, because then the foundation of an
+          all-code project would be the one thing that wasn't code.
+        </p>
+        <p>
+          So there's a small separate <code>bootstrap/</code> stack whose only
+          job is to create the versioned, encrypted state bucket and the lock
+          table. You run it once; after that the main stack uses that backend.
+          It's a one-time step, but it keeps the promise that the whole thing is
+          reproducible from source.
+        </p>
+
+        <h2>Deploys: OIDC, so there are no stored keys</h2>
+        <p>
+          Every push to <code>main</code> runs the tests, applies the
+          infrastructure, syncs the site to S3, and invalidates the CloudFront
+          cache. The part I care about most: GitHub Actions authenticates to AWS
+          with <strong>OIDC role assumption</strong>, not stored access keys.
+          There is no long-lived AWS secret sitting in the repo settings waiting
+          to leak — the pipeline exchanges a short-lived GitHub token for
+          temporary AWS credentials at run time.
+        </p>
+
+        <h2>What broke: the deploy that kept deleting my domain</h2>
+        <p>
+          Here's the one I didn't see coming. After wiring up the custom domain —
+          Route 53, the ACM cert, the CloudFront alias — everything worked. Then
+          on the next push, the site dropped off the custom domain. I'd re-apply,
+          it'd come back, I'd push again, and it would vanish again.
+        </p>
+        <p>
+          The cause: the custom-domain values lived in a
+          <code>terraform.tfvars</code> file, and <code>.tfvars</code> was in my
+          <code>.gitignore</code>. Locally, Terraform read my values and built
+          the domain. But in CI that file didn't exist, so Terraform fell back to
+          the <em>defaults</em> in <code>variables.tf</code> — which were empty —
+          and dutifully tore the domain configuration back down every single run.
+          The pipeline was doing exactly what I'd told it to; I just hadn't told
+          it the right thing.
+        </p>
+        <p>
+          The fix was to stop treating the domain as a secret local override and
+          make the real custom-domain values the <strong>defaults in
+          <code>variables.tf</code></strong>, committed to the repo. CI and local
+          now agree, and the pipeline stays green. The lesson I took from it:
+          when a deploy is non-deterministic between local and CI, look first at
+          what CI <em>can't see</em> — the gitignored file is invisible to the
+          runner, and your defaults are what actually ship.
+        </p>
+
+        <h2>Where it stands</h2>
+        <p>
+          The result is a site that's genuinely live, fully serverless, entirely
+          in code, tested, and deployed with no stored credentials — the kind of
+          thing I'd want to point at and say "that's how I work," because it is.
+          Next on the list is cleaner URLs via a small CloudFront function, and
+          turning a couple more of my projects into write-ups like this one.
+        </p>
+        <p>
+          The code is on <a href="https://github.com/Joshuabarradas234/cloud-resume-challenge">GitHub</a>
+          if you want to see any of the above in full.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <p>
+      <a href="/">joshuabarradas.com</a> ·
+      <a href="https://github.com/Joshuabarradas234">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
+    </p>
+  </footer>
+</body>
+</html>
