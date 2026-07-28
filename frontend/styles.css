@@ -464,3 +464,25 @@ main > .band--navy:nth-of-type(even) { background: #0e2740; }
 .band--navy .postlist__title { color: #f4f7f9; }
 .band--navy .postlist__link:hover .postlist__title { color: #fff; }
 .band--navy .postlist__meta { color: #93a0b2; }
+
+/* ---------- Availability + CV button (masthead) ---------- */
+.avail { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 2px 0 22px; }
+.avail__badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--f-mono); font-size: 12.5px; color: #cfe8d9;
+  background: rgba(31,169,113,0.12); border: 1px solid rgba(31,169,113,0.35);
+  border-radius: 999px; padding: 7px 14px;
+}
+.avail__dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--live);
+  box-shadow: 0 0 0 0 rgba(31,169,113,0.7); animation: pulse 2.4s ease-out infinite;
+}
+.btn-cv {
+  display: inline-flex; align-items: center;
+  font-family: var(--f-mono); font-size: 13px; font-weight: 500;
+  color: var(--navy-900); background: var(--live);
+  border-radius: 999px; padding: 9px 18px; border-bottom: 0;
+  transition: background .15s ease, transform .15s ease;
+}
+.btn-cv:hover { background: #26c084; transform: translateY(-1px); color: var(--navy-900); }
+@media (prefers-reduced-motion: reduce) { .avail__dot { animation: none; } .btn-cv:hover { transform: none; } }
