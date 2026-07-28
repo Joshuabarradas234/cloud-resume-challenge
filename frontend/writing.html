@@ -5,22 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Writing — Joshua Barradas</title>
   <meta name="description" content="Build notes and decisions from Joshua Barradas — serverless and infrastructure-as-code on AWS." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Writing — Joshua Barradas" />
+  <meta property="og:description" content="Build notes and decisions — serverless and infrastructure-as-code on AWS." />
+  <meta property="og:url" content="https://joshuabarradas.com/writing.html" />
+  <meta property="og:image" content="https://joshuabarradas.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://joshuabarradas.com/og.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="statusbar" role="banner">
     <div class="statusbar__inner">
-      <span class="status">
-        <span class="status__dot" aria-hidden="true"></span>
-        <span class="status__label">LIVE</span>
-      </span>
+      <span class="status"><span class="status__dot" aria-hidden="true"></span><span class="status__label">LIVE</span></span>
       <span class="statusbar__sep" aria-hidden="true">/</span>
       <span class="statusbar__meta">writing</span>
       <span class="statusbar__spacer"></span>
@@ -40,7 +43,13 @@
 
     <section class="block">
       <ul class="postlist">
-        <li class="postlist__item">
+        <li>
+          <a class="postlist__link" href="/writing/ecs-fargate-vpc-platform.html">
+            <span class="postlist__title">The $32 line in my architecture — a Fargate VPC, three-tier security groups, and auditing my own cloud bill</span>
+            <span class="postlist__meta">ECS Fargate VPC Platform · deep-dive</span>
+          </a>
+        </li>
+        <li>
           <a class="postlist__link" href="/writing/how-i-built-this-site.html">
             <span class="postlist__title">How I built this site — private S3, a serverless counter, and one bug that kept deleting my domain</span>
             <span class="postlist__meta">Cloud Resume Challenge · deep-dive</span>
