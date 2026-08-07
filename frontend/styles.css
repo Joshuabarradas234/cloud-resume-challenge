@@ -11,30 +11,34 @@
 */
 
 :root {
-  --paper:    #faf8f4;   /* warm page background */
+  --paper:    #f3f2ef;   /* warm off-white page (from banner) */
   --panel:    #ffffff;   /* cards */
-  --ink:      #141a21;   /* body text */
-  --muted:    #5b6470;   /* secondary text */
-  --hairline: #e7e3da;   /* borders on paper */
+  --ink:      #2a2d35;   /* body text — charcoal from banner */
+  --muted:    #767c8a;   /* secondary text */
+  --hairline: #e3ded4;   /* borders on paper */
 
-  --navy-900: #0c2033;   /* masthead band + status bar */
-  --navy-700: #16324f;   /* headings */
-  --navy-600: #1d4266;   /* deep accents */
+  --sand:     #d7d3c9;   /* NEW — circle/accent tone from your profile */
+  --sand-soft:#e6e2d9;   /* NEW — soft sand for tag/pill fills */
 
-  --live:     #1fa971;   /* live / verified — the single accent */
-  --live-ink: #0c6b45;
-  --live-tint:rgba(31,169,113,0.10);
+  /* slate ramp (names kept so the rest of the CSS is untouched) */
+  --navy-900: #333a4d;   /* masthead band + status bar — soft dark slate */
+  --navy-700: #5c6680;   /* headings — the "BARRADAS" slate */
+  --navy-600: #474f66;   /* deep accents */
 
-  --on-band:      #f4f7f9; /* text on navy */
-  --on-band-dim:  #aeb9c5; /* secondary text on navy */
+  --live:     #5f8468;   /* live / verified — muted sage, the single accent */
+  --live-ink: #3f6349;
+  --live-tint:rgba(95,132,104,0.12);
+
+  --on-band:      #f3f2ef; /* text on band */
+  --on-band-dim:  #b9bdc9; /* secondary text on band */
 
   --f-display: "Space Grotesk", system-ui, sans-serif;
   --f-body:    "Inter", system-ui, sans-serif;
   --f-mono:    "JetBrains Mono", ui-monospace, monospace;
 
   --maxw: 760px;
-  --shadow-sm: 0 1px 2px rgba(12,32,51,0.06);
-  --shadow:    0 10px 30px -14px rgba(12,32,51,0.30);
+  --shadow-sm: 0 1px 2px rgba(51,58,77,0.06);
+  --shadow:    0 10px 30px -14px rgba(51,58,77,0.28);
 }
 
 * { box-sizing: border-box; }
