@@ -1,625 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Joshua Barradas — Cloud Engineer</title>
-  <meta name="description" content="Joshua Barradas — AWS-certified Cloud Engineer building serverless, infrastructure-as-code systems on AWS. Leeds, UK. Open to Cloud Engineer / Solutions Architect roles." />
-
-  <!-- Open Graph / Twitter share preview -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Joshua Barradas" />
-  <meta property="og:title" content="Joshua Barradas — Cloud Engineer" />
-  <meta property="og:description" content="AWS-certified cloud engineer — serverless, IaC and multi-account security on AWS. Five public projects with live-deployment evidence. Open to roles." />
-  <meta property="og:url" content="https://joshuabarradas.com/" />
-  <meta property="og:image" content="https://joshuabarradas.com/og.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Joshua Barradas — Cloud Engineer" />
-  <meta name="twitter:description" content="AWS-certified cloud engineer — serverless, IaC and multi-account security on AWS. Open to roles." />
-  <meta name="twitter:image" content="https://joshuabarradas.com/og.png" />
-
-  <meta name="theme-color" content="#0c2033" />
-  <link rel="canonical" href="https://joshuabarradas.com/" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Joshua Barradas",
-    "jobTitle": "Cloud Engineer",
-    "url": "https://joshuabarradas.com",
-    "address": { "@type": "PostalAddress", "addressLocality": "Leeds", "addressCountry": "GB" },
-    "sameAs": [
-      "https://github.com/Joshuabarradas234",
-      "https://www.linkedin.com/in/joshua-barradas-433292212"
-    ],
-    "knowsAbout": ["AWS", "Terraform", "Serverless", "VPC design", "CI/CD", "Infrastructure as Code", "Amazon ECS", "DynamoDB", "Lambda"]
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joshua Barradas — Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1C1E24; --slate:#434E5B; --sand:#DBCDB0; --cream:#F5F1E8; --cream-2:#EFE7D6;
+    --line:rgba(28,30,36,.14); --line-dark:rgba(245,241,232,.16);
+    --disp:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
   }
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="icon" href="favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <link rel="stylesheet" href="styles.css" />
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:var(--ink);background:var(--cream);-webkit-font-smoothing:antialiased;line-height:1.55}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+  section{padding:64px 0}
+  .band-dark{background:var(--ink);color:var(--cream)}
+  .band-light{background:var(--cream)}
+  .hero{position:relative;text-align:center;padding:76px 0 68px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(219,205,176,.22),transparent 62%);pointer-events:none}
+  .monogram{position:relative;width:118px;height:118px;margin:0 auto 26px;border-radius:50%;background:var(--cream);display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:44px;color:var(--ink);letter-spacing:1px;box-shadow:0 0 0 1px rgba(245,241,232,.10)}
+  .status{position:relative;display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.5px;color:var(--sand);border:1px solid var(--line-dark);border-radius:999px;padding:7px 14px;margin-bottom:22px}
+  .dot{width:8px;height:8px;border-radius:50%;background:#7CE38B;animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(124,227,139,.5)}70%{box-shadow:0 0 0 9px rgba(124,227,139,0)}100%{box-shadow:0 0 0 0 rgba(124,227,139,0)}}
+  .hero h1{position:relative;font-family:var(--disp);font-weight:700;font-size:clamp(38px,10vw,62px);line-height:1.02;letter-spacing:-1px;margin-bottom:16px}
+  .tagline{position:relative;font-size:clamp(14px,3.6vw,17px);color:var(--sand);font-weight:500;letter-spacing:.2px}
+  .hero .quote{position:relative;margin-top:26px;font-size:14px;color:rgba(245,241,232,.62);max-width:520px;margin:26px auto 0}
+  .hero .quote b{color:rgba(245,241,232,.9);display:block;margin-top:6px;font-weight:600}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .tile{display:flex;align-items:center;justify-content:center;text-align:center;background:var(--ink);color:var(--cream);text-decoration:none;font-family:var(--disp);font-weight:600;font-size:17px;letter-spacing:.3px;min-height:96px;border-radius:20px;padding:18px;border:1px solid transparent;transition:transform .18s ease,border-color .18s ease,color .18s ease}
+  .tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--sand);color:var(--sand);outline:none}
+  .quoteband{text-align:center;padding:56px 0}
+  .quoteband p{font-family:var(--disp);font-weight:500;font-size:clamp(19px,4.6vw,26px);line-height:1.35;max-width:640px;margin:0 auto}
+  .quoteband cite{display:block;margin-top:18px;font-style:normal;font-weight:600;color:var(--sand);font-size:15px}
+  .band-light .quoteband cite{color:var(--slate)}
+  .eyebrow{text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--slate);margin-bottom:8px}
+  .cred-head{text-align:center;font-family:var(--disp);font-weight:600;font-size:clamp(22px,5vw,30px);letter-spacing:.5px;margin-bottom:40px}
+  .creds{display:grid;grid-template-columns:1fr 1fr 1fr;gap:26px}
+  .cred{text-align:center}
+  .cred h3{font-family:var(--disp);font-size:15px;letter-spacing:.4px;margin-bottom:6px}
+  .cred .rule{width:34px;height:2px;background:var(--sand);margin:10px auto 12px}
+  .cred p{font-size:13px;color:var(--slate);line-height:1.5}
+  .sec-title{text-align:center;font-family:var(--disp);font-weight:700;font-size:clamp(26px,6vw,36px);margin-bottom:38px}
+  .projects{display:grid;gap:16px}
+  .project{background:rgba(245,241,232,.04);border:1px solid var(--line-dark);border-radius:18px;padding:22px}
+  .project .stack{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--sand);text-transform:uppercase;margin-bottom:10px}
+  .project h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .chip{font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;color:var(--ink);background:var(--sand);border-radius:999px;padding:3px 9px}
+  .project p{font-size:14px;color:rgba(245,241,232,.72);line-height:1.55}
+  .xp{display:grid;gap:20px;max-width:640px;margin:0 auto}
+  .xp-item{border-left:2px solid var(--sand);padding-left:18px}
+  .xp-item h3{font-family:var(--disp);font-size:17px;margin-bottom:4px}
+  .xp-item .role{font-family:var(--mono);font-size:12px;color:var(--slate);letter-spacing:.4px;margin-bottom:7px}
+  .xp-item p{font-size:14px;color:var(--slate)}
+  .refs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+  .ref{text-align:center;border:1px solid var(--line-dark);border-radius:16px;padding:20px 14px}
+  .ref .av{width:46px;height:46px;border-radius:50%;background:var(--sand);color:var(--ink);font-family:var(--disp);font-weight:700;display:grid;place-items:center;margin:0 auto 12px;font-size:16px}
+  .ref h3{font-family:var(--disp);font-size:14px;margin-bottom:3px}
+  .ref p{font-size:11.5px;color:rgba(245,241,232,.6);line-height:1.45}
+  footer{text-align:center;padding:52px 0}
+  .emblem{width:56px;height:56px;border-radius:14px;background:var(--cream);color:var(--ink);display:grid;place-items:center;margin:0 auto 16px;font-family:var(--disp);font-weight:700}
+  footer p{font-size:12px;color:rgba(245,241,232,.55);font-family:var(--mono);letter-spacing:.4px}
+  @media (max-width:560px){.creds,.refs{grid-template-columns:1fr;gap:22px}section{padding:52px 0}}
+  @media (max-width:360px){.grid{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}}
+</style>
 </head>
 <body>
-  <!-- SIGNATURE: the site reporting its own live status + telemetry -->
-  <header class="statusbar" role="banner">
-    <div class="statusbar__inner">
-      <span class="status">
-        <span class="status__dot" aria-hidden="true"></span>
-        <span class="status__label">LIVE</span>
-      </span>
-      <span class="statusbar__sep" aria-hidden="true">/</span>
-      <span class="statusbar__meta">region <b>eu-west-2</b></span>
-      <span class="statusbar__sep" aria-hidden="true">/</span>
-      <span class="statusbar__meta">served via CloudFront + S3</span>
-      <span class="statusbar__spacer"></span>
-      <span class="telemetry" aria-live="polite">
-        <span class="telemetry__label">visitors</span>
-        <span class="telemetry__value" id="visit-count">—</span>
-      </span>
+  <header class="band-dark hero">
+    <div class="wrap">
+      <div class="monogram">JB</div>
+      <div class="status"><span class="dot"></span>LIVE · eu-west-2 · CloudFront</div>
+      <h1>Joshua Barradas</h1>
+      <p class="tagline">Cloud Engineer · AWS · Terraform · Serverless</p>
+      <p class="quote">"Everything fails, all the time."<b>— Werner Vogels, CTO, Amazon</b></p>
     </div>
   </header>
 
-  <!-- MASTHEAD (navy) -->
-  <section class="masthead">
-    <div class="masthead__inner masthead__inner--cover">
-      <h1 class="visually-hidden">Joshua Barradas — Cloud Engineer, Leeds, UK</h1>
-      <div class="wordmark">
-        <span class="wordmark__first">Joshua</span><span class="wordmark__last">Barradas</span>
+  <section class="band-light">
+    <div class="wrap">
+      <div class="grid">
+        <a class="tile" href="mailto:joshuabrunobarradas@gmail.com">Contact</a>
+        <a class="tile" href="#projects">Projects</a>
+        <a class="tile" href="#experience">Experience</a>
+        <a class="tile" href="#credentials">Certifications</a>
+        <a class="tile" href="https://github.com/YOUR-HANDLE" target="_blank" rel="noopener">GitHub</a>
+        <a class="tile" href="https://linkedin.com/in/YOUR-HANDLE" target="_blank" rel="noopener">LinkedIn</a>
       </div>
-      <p class="masthead__eyebrow">// cloud engineer · leeds, uk</p>
-      <p class="masthead__line">
-        AWS-certified cloud engineer. Across four contract engagements and a
-        part-time role I've shipped serverless integrations, multi-account
-        security baselines and containerised ECS Fargate platforms — Terraform,
-        VPC design, least-privilege IAM, CI/CD and observability end-to-end.
-        Five public AWS projects, each with live-deployment or production
-        evidence in its repo.
-      </p>
-      <div class="avail">
-        <span class="avail__badge"><span class="avail__dot" aria-hidden="true"></span>Open to Cloud Engineer / Solutions Architect roles across the UK</span>
-        <a class="btn-cv" href="/cv.pdf">Download CV (PDF)&nbsp;↓</a>
-      </div>
-      <nav class="masthead__links" aria-label="Contact and profiles">
-        <a href="/writing.html">Writing</a>
-        <a href="https://github.com/Joshuabarradas234">GitHub</a>
-        <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>
-        <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=joshuabrunobarradas@gmail.com" target="_blank" rel="noopener" title="Email Joshua">Email</a>
-        <span class="masthead__loc">Leeds, UK</span>
-      </nav>
     </div>
   </section>
 
-  <main>
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">WRITING</span></h2>
-          <p class="block__lede">Build notes and decisions — how these systems are put together, and what broke along the way. <a href="/writing.html">All posts →</a></p>
-          <ul class="postlist">
-            <li>
-              <a class="postlist__link" href="/writing/ecs-fargate-vpc-platform.html">
-                <span class="postlist__title">The $32 line in my architecture — a Fargate VPC, three-tier security groups, and auditing my own cloud bill</span>
-                <span class="postlist__meta">ECS Fargate VPC Platform · deep-dive</span>
-              </a>
-            </li>
-            <li>
-              <a class="postlist__link" href="/writing/how-i-built-this-site.html">
-                <span class="postlist__title">How I built this site — private S3, a serverless counter, and one bug that kept deleting my domain</span>
-                <span class="postlist__meta">Cloud Resume Challenge · deep-dive</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+  <section class="band-dark">
+    <div class="wrap quoteband">
+      <p>"Simplicity is prerequisite for reliability."</p>
+      — Edsger W. Dijkstra
+    </div>
+  </section>
+
+  <section class="band-light" id="credentials">
+    <div class="wrap">
+      <p class="eyebrow">Education &amp; Certifications</p>
+      <h2 class="cred-head">University of Leeds</h2>
+      <div class="creds">
+        <div class="cred"><h3>BA (Hons) 2:1</h3><div class="rule"></div><p>Business Management with Marketing, University of Leeds. Class II Division i.</p></div>
+        <div class="cred"><h3>AWS Certified</h3><div class="rule"></div><p>Solutions Architect Associate (SAA-C03) &amp; AI Practitioner.</p></div>
+        <div class="cred"><h3>Terraform &amp; Azure</h3><div class="rule"></div><p>HashiCorp Terraform Associate &amp; Microsoft Applied Skills (Azure).</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">PROJECTS</span></h2>
-          <p class="block__lede">All public on GitHub — each README documents exactly what was deployed and verified.</p>
-
-          <article class="entry entry--flag">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Resume Challenge <span class="flag">flagship · live</span></h3>
-              <a class="entry__link" href="https://github.com/Joshuabarradas234/cloud-resume-challenge">repo →</a>
-            </div>
-            <p class="entry__org">The site you're reading now · S3 · CloudFront · API Gateway · Lambda · DynamoDB · Terraform</p>
-            <ul class="entry__points">
-              <li>Private S3 origin behind CloudFront (Origin Access Control), custom domain over HTTPS with an ACM certificate.</li>
-              <li>Visitor counter: API Gateway → Lambda → DynamoDB, using an atomic update so no visit is ever lost under concurrency.</li>
-              <li>100% Terraform with remote state; GitHub Actions CI/CD that tests, applies, syncs and invalidates on every push — authenticating to AWS via OIDC, with no long-lived keys. Lighthouse 100/100/100/100.</li>
-            </ul>
-
-            <figure class="diagram" role="group" aria-labelledby="diagram-cap">
-              <svg viewBox="0 0 700 232" role="img"
-                   aria-label="Architecture: the browser reaches the site through Route 53, CloudFront and a private S3 bucket; the visitor counter runs from page JavaScript through API Gateway to a Lambda function and a DynamoDB table."
-                   xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0" />
-                  </marker>
-                </defs>
-                <text class="dgm-lane" x="16" y="20">DELIVERY</text>
-                <text class="dgm-lane" x="16" y="132">COUNTER</text>
-                <g class="dgm-flow">
-                  <line x1="146" y1="52" x2="182" y2="52" marker-end="url(#arrow)" />
-                  <line x1="316" y1="52" x2="352" y2="52" marker-end="url(#arrow)" />
-                  <line x1="486" y1="52" x2="522" y2="52" marker-end="url(#arrow)" />
-                </g>
-                <g class="dgm-box">
-                  <rect x="16"  y="32" width="130" height="40" rx="6" />
-                  <rect x="182" y="32" width="130" height="40" rx="6" />
-                  <rect x="352" y="32" width="130" height="40" rx="6" />
-                  <rect x="522" y="32" width="162" height="40" rx="6" class="dgm-box--edge" />
-                </g>
-                <g class="dgm-label">
-                  <text x="81"  y="56">Browser</text>
-                  <text x="247" y="56">Route 53</text>
-                  <text x="417" y="56">CloudFront</text>
-                  <text x="603" y="56">S3 · private</text>
-                </g>
-                <text class="dgm-note" x="417" y="88">HTTPS · ACM cert · OAC</text>
-                <line class="dgm-flow" x1="81" y1="72" x2="81" y2="144" marker-end="url(#arrow)" />
-                <text class="dgm-note" x="88" y="112" text-anchor="start">POST /count</text>
-                <g class="dgm-flow">
-                  <line x1="146" y1="164" x2="182" y2="164" marker-end="url(#arrow)" />
-                  <line x1="330" y1="164" x2="366" y2="164" marker-end="url(#arrow)" />
-                  <line x1="500" y1="164" x2="536" y2="164" marker-end="url(#arrow)" />
-                </g>
-                <g class="dgm-box">
-                  <rect x="16"  y="144" width="130" height="40" rx="6" />
-                  <rect x="182" y="144" width="148" height="40" rx="6" />
-                  <rect x="366" y="144" width="134" height="40" rx="6" />
-                  <rect x="536" y="144" width="148" height="40" rx="6" class="dgm-box--data" />
-                </g>
-                <g class="dgm-label">
-                  <text x="81"  y="168">Page JS</text>
-                  <text x="256" y="168">API Gateway</text>
-                  <text x="433" y="168">Lambda</text>
-                  <text x="610" y="168">DynamoDB</text>
-                </g>
-                <text class="dgm-note dgm-note--data" x="610" y="200">atomic ADD count 1</text>
-              </svg>
-              <figcaption id="diagram-cap">Two paths: the page is delivered from a private S3 bucket through CloudFront; the counter runs server-side through API Gateway, Lambda and a single atomic DynamoDB write.</figcaption>
-            </figure>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">ECS Fargate VPC Platform</h3>
-              <a class="entry__link" href="https://github.com/Joshuabarradas234/ecs-fargate-vpc-platform">repo →</a>
-            </div>
-            <p class="entry__org">FastAPI · ECS Fargate · Terraform · RDS · ALB · Docker</p>
-            <ul class="entry__points">
-              <li>Containerised REST API in a custom multi-AZ VPC (~46 Terraform resources) with three-tier security groups and RDS PostgreSQL — deployed live and verified.</li>
-              <li>18 tests and CI, plus a Boto3 cost-audit tool that flagged the NAT gateway (~$32/mo) as the top cost driver.</li>
-            </ul>
-            <figure class="diagram" role="group" aria-label="ECS Fargate VPC architecture">
-              <svg viewBox="0 0 700 108" role="img" aria-label="ECS Fargate VPC architecture" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow-ecs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0"/>
-                  </marker>
-                </defs>
-                <text class="dgm-lane" x="16" y="16">CUSTOM VPC · MULTI-AZ</text>
-                <g class="dgm-box">
-                  <rect x="16"  y="32" width="120" height="40" rx="6"/>
-                  <rect x="176" y="32" width="120" height="40" rx="6" class="dgm-box--edge"/>
-                  <rect x="336" y="32" width="150" height="40" rx="6"/>
-                  <rect x="526" y="32" width="158" height="40" rx="6" class="dgm-box--data"/>
-                </g>
-                <g class="dgm-flow" stroke="#8b93a0" stroke-width="1.5">
-                  <line x1="136" y1="52" x2="176" y2="52" marker-end="url(#arrow-ecs)"/>
-                  <line x1="296" y1="52" x2="336" y2="52" marker-end="url(#arrow-ecs)"/>
-                  <line x1="486" y1="52" x2="526" y2="52" marker-end="url(#arrow-ecs)"/>
-                </g>
-                <g class="dgm-label">
-                  <text x="76"  y="56">Client</text>
-                  <text x="236" y="56">ALB</text>
-                  <text x="411" y="56">ECS Fargate</text>
-                  <text x="605" y="56">RDS · Postgres</text>
-                </g>
-                <text class="dgm-note" x="236" y="90">public subnet</text>
-                <text class="dgm-note" x="411" y="90">private subnet</text>
-                <text class="dgm-note dgm-note--data" x="605" y="90">data subnet</text>
-              </svg>
-              <figcaption>Three-tier custom VPC: an internet-facing ALB in public subnets fronts Fargate tasks in private subnets, which reach RDS PostgreSQL in isolated data subnets.</figcaption>
-            </figure>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Secure Multi-Account AWS Landing Zone</h3>
-              <a class="entry__link" href="https://github.com/Joshuabarradas234/secure-landing-zone">repo →</a>
-            </div>
-            <p class="entry__org">Terraform · AWS Organizations · IAM Identity Center</p>
-            <ul class="entry__points">
-              <li>Reusable security baseline — 64 Terraform resources across 6 modules (SCP guardrails, least-privilege IAM, Security Hub + GuardDuty, policy-as-code CI).</li>
-              <li>Security stack deployed live to AWS and verified; the Organizations and Identity Center layers are written and validated, not yet deployed.</li>
-            </ul>
-            <figure class="diagram" role="group" aria-label="Secure multi-account landing zone architecture">
-              <svg viewBox="0 0 700 200" role="img" aria-label="Secure multi-account landing zone architecture" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow-lz" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0"/>
-                  </marker>
-                </defs>
-                <text class="dgm-lane" x="16" y="20">GOVERNANCE</text>
-                <text class="dgm-lane" x="16" y="132">IDENTITY &amp; SECURITY</text>
-                <g class="dgm-box">
-                  <rect x="16"  y="32" width="160" height="40" rx="6" class="dgm-box--edge"/>
-                  <rect x="206" y="32" width="150" height="40" rx="6"/>
-                  <rect x="386" y="32" width="160" height="40" rx="6"/>
-                  <rect x="16"  y="144" width="200" height="40" rx="6"/>
-                  <rect x="246" y="144" width="260" height="40" rx="6" class="dgm-box--data"/>
-                </g>
-                <g class="dgm-flow" stroke="#8b93a0" stroke-width="1.5">
-                  <line x1="176" y1="52" x2="206" y2="52" marker-end="url(#arrow-lz)"/>
-                  <line x1="356" y1="52" x2="386" y2="52" marker-end="url(#arrow-lz)"/>
-                  <line x1="216" y1="164" x2="246" y2="164" marker-end="url(#arrow-lz)"/>
-                </g>
-                <g class="dgm-label">
-                  <text x="96"  y="56">AWS Organizations</text>
-                  <text x="281" y="56">SCP guardrails</text>
-                  <text x="466" y="56">Member accts</text>
-                  <text x="116" y="168">IAM Identity Center</text>
-                  <text x="376" y="168">Security Hub + GuardDuty</text>
-                </g>
-              </svg>
-              <figcaption>Organization-wide SCP guardrails constrain every member account; IAM Identity Center centralises SSO while Security Hub and GuardDuty aggregate findings across the org.</figcaption>
-            </figure>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">jobadder-oauth-aws</h3>
-              <a class="entry__link" href="https://github.com/Joshuabarradas234/jobadder-oauth-aws">repo →</a>
-            </div>
-            <p class="entry__org">Lambda · CloudFormation · KMS · Secrets Manager · SQS/DLQ · SNS</p>
-            <ul class="entry__points">
-              <li>Serverless OAuth 2.0 token-lifecycle integration — three Lambdas refreshing every 50 min against a 60-min expiry (zero lapses), with DLQ and SNS alerting.</li>
-              <li>Sanitised public reference of a system running in production on AWS for EfficiencAI; 9 unit tests.</li>
-            </ul>
-            <figure class="diagram" role="group" aria-label="JobAdder OAuth token-refresh architecture">
-              <svg viewBox="0 0 700 200" role="img" aria-label="JobAdder OAuth token-refresh architecture" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow-ja" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0"/>
-                  </marker>
-                </defs>
-                <text class="dgm-lane" x="16" y="20">TOKEN REFRESH</text>
-                <text class="dgm-lane" x="16" y="132">FAILURE PATH</text>
-                <g class="dgm-box">
-                  <rect x="16"  y="32" width="150" height="40" rx="6" class="dgm-box--edge"/>
-                  <rect x="196" y="32" width="180" height="40" rx="6"/>
-                  <rect x="406" y="32" width="180" height="40" rx="6" class="dgm-box--data"/>
-                  <rect x="196" y="144" width="150" height="40" rx="6"/>
-                  <rect x="406" y="144" width="150" height="40" rx="6"/>
-                </g>
-                <g class="dgm-flow" stroke="#8b93a0" stroke-width="1.5">
-                  <line x1="166" y1="52" x2="196" y2="52" marker-end="url(#arrow-ja)"/>
-                  <line x1="376" y1="52" x2="406" y2="52" marker-end="url(#arrow-ja)"/>
-                  <line x1="271" y1="72" x2="271" y2="144" marker-end="url(#arrow-ja)"/>
-                  <line x1="346" y1="164" x2="406" y2="164" marker-end="url(#arrow-ja)"/>
-                </g>
-                <g class="dgm-label">
-                  <text x="91"  y="56">EventBridge</text>
-                  <text x="286" y="56">Refresh Lambda</text>
-                  <text x="496" y="56">Secrets Mgr · KMS</text>
-                  <text x="271" y="168">SQS DLQ</text>
-                  <text x="481" y="168">SNS alert</text>
-                </g>
-                <text class="dgm-note" x="286" y="104">every 50 min · 60-min expiry</text>
-              </svg>
-              <figcaption>An EventBridge schedule fires a Lambda that refreshes OAuth tokens into KMS-encrypted Secrets Manager every 50 minutes against a 60-minute expiry; failures divert to an SQS dead-letter queue and raise an SNS alert.</figcaption>
-            </figure>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">intellidoc-engine</h3>
-              <a class="entry__link" href="https://github.com/Joshuabarradas234/intellidoc-engine">repo →</a>
-            </div>
-            <p class="entry__org">Textract · Lambda · Terraform · DynamoDB · OpenSearch · Cognito</p>
-            <ul class="entry__points">
-              <li>Serverless receipt/invoice pipeline with full-text search behind a Cognito-authenticated API Gateway — deployed live and verified (us-east-1).</li>
-              <li>565ms response in testing; 23 passing pytest tests.</li>
-            </ul>
-            <figure class="diagram" role="group" aria-label="intellidoc-engine architecture">
-              <svg viewBox="0 0 700 200" role="img" aria-label="intellidoc-engine architecture" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="arrow-id" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-                    <path d="M0,0 L10,5 L0,10 z" fill="#8b93a0"/>
-                  </marker>
-                </defs>
-                <text class="dgm-lane" x="16" y="20">INGEST</text>
-                <text class="dgm-lane" x="16" y="132">QUERY</text>
-                <g class="dgm-box">
-                  <rect x="16"  y="32" width="120" height="40" rx="6" class="dgm-box--edge"/>
-                  <rect x="166" y="32" width="110" height="40" rx="6"/>
-                  <rect x="306" y="32" width="120" height="40" rx="6"/>
-                  <rect x="456" y="32" width="228" height="40" rx="6" class="dgm-box--data"/>
-                  <rect x="16"  y="144" width="210" height="40" rx="6" class="dgm-box--edge"/>
-                  <rect x="256" y="144" width="110" height="40" rx="6"/>
-                  <rect x="396" y="144" width="150" height="40" rx="6" class="dgm-box--data"/>
-                </g>
-                <g class="dgm-flow" stroke="#8b93a0" stroke-width="1.5">
-                  <line x1="136" y1="52" x2="166" y2="52" marker-end="url(#arrow-id)"/>
-                  <line x1="276" y1="52" x2="306" y2="52" marker-end="url(#arrow-id)"/>
-                  <line x1="426" y1="52" x2="456" y2="52" marker-end="url(#arrow-id)"/>
-                  <line x1="226" y1="164" x2="256" y2="164" marker-end="url(#arrow-id)"/>
-                  <line x1="366" y1="164" x2="396" y2="164" marker-end="url(#arrow-id)"/>
-                </g>
-                <g class="dgm-label">
-                  <text x="76"  y="56">S3 upload</text>
-                  <text x="221" y="56">Lambda</text>
-                  <text x="366" y="56">Textract</text>
-                  <text x="570" y="56">DynamoDB + OpenSearch</text>
-                  <text x="121" y="168">API GW · Cognito</text>
-                  <text x="311" y="168">Lambda</text>
-                  <text x="471" y="168">OpenSearch</text>
-                </g>
-              </svg>
-              <figcaption>Uploads land in S3 and trigger a Lambda that runs Textract, writing structured results to DynamoDB and indexing them in OpenSearch; a Cognito-authenticated API Gateway serves full-text queries back through Lambda.</figcaption>
-            </figure>
-          </article>
-        </div>
+  <section class="band-dark" id="projects">
+    <div class="wrap">
+      <h2 class="sec-title">Project Portfolio</h2>
+      <div class="projects">
+        <article class="project"><div class="stack">S3 · CloudFront · DynamoDB · GitHub OIDC</div><h3>Cloud Resume Challenge <span class="chip">LIVE · eu-west-2</span></h3><p>Serverless static site on AWS with an atomic DynamoDB visitor counter, OIDC-based CI/CD, 5 passing pytest tests and a 100/100 Lighthouse score. Live over HTTPS on a custom domain.</p></article>
+        <article class="project"><div class="stack">ECS Fargate · VPC · Terraform</div><h3>ECS Fargate VPC Platform <span class="chip">DEPLOYED</span></h3><p>Containerised web app on ECS Fargate inside a custom VPC — ~46 Terraform resources, with a live API health check and cost-audit evidence in the repo.</p></article>
+        <article class="project"><div class="stack">Control Tower · Organizations · Terraform</div><h3>Secure Multi-Account Landing Zone <span class="chip">PARTIAL DEPLOY</span></h3><p>64 resources across 6 modules. Security stack deployed live and verified; Organizations and Identity Center layers written and validated — not deployed on the single-account free tier.</p></article>
+        <article class="project"><div class="stack">OAuth 2.0 · KMS · SQS/DLQ · SNS</div><h3>JobAdder OAuth Integration <span class="chip">IN PRODUCTION</span></h3><p>Multi-tenant JobAdder OAuth 2.0 integration built for EfficiencAI — KMS-encrypted token storage, SQS with a dead-letter queue, SNS alerts and 9 tests. Running in production.</p></article>
+        <article class="project"><div class="stack">Textract · Lambda · DynamoDB · OpenSearch · Cognito</div><h3>IntelliDoc Engine <span class="chip">DEPLOYED · us-east-1</span></h3><p>Document-intelligence API — Textract extraction, OpenSearch retrieval and Cognito auth, deployed to us-east-1 with 23 pytest tests and console evidence.</p></article>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">CERTIFICATIONS &amp; MORE</span></h2>
-          <ul class="certs certs--onband">
-            <li>AWS Solutions Architect – Associate (SAA-C03)</li>
-            <li>HashiCorp Terraform Associate (004)</li>
-            <li>AWS AI Practitioner</li>
-            <li>Microsoft Applied Skills (Azure): Knowledge Mining · AI Agent · Generative AI</li>
-          </ul>
-          <div class="meta-list">
-            <div>
-              <p class="meta-list__k">Speaking</p>
-              <p class="meta-list__v">Toastmasters (Leeds City) &amp; White Rose Speakers — regular public speaking and presentation practice.</p>
-            </div>
-            <div>
-              <p class="meta-list__k">Languages</p>
-              <p class="meta-list__v">English · Portuguese (Native)</p>
-            </div>
-          </div>
-        </div>
+  <section class="band-light" id="experience">
+    <div class="wrap">
+      <h2 class="sec-title" style="color:var(--ink)">Experience</h2>
+      <div class="xp">
+        <div class="xp-item"><h3>EfficiencAI</h3><div class="role">Cloud Engineer · Part-time</div><p>Built the multi-tenant JobAdder OAuth 2.0 integration now running in production.</p></div>
+        <div class="xp-item"><h3>XPX</h3><div class="role">Cloud / ML · Contract</div><p>Explainable risk-decisioning design and prototype (Score · Explain · Act) for a salary-advance fintech.</p></div>
+        <div class="xp-item"><h3>Pick n Pay</h3><div class="role">AWS Prototyping · 2025–2026</div><p>Piloted three AWS prototypes across two Johannesburg stores, benchmarking AWS against Azure — simulated five-store load (~950 vs ~500 msg/s) and ~22% stockout reduction. Basis of the undergraduate dissertation.</p></div>
+        <div class="xp-item"><h3>Noxieun · Genyte</h3><div class="role">Cloud Engineering</div><p>‹Add your one-line summary for each — happy to draft from your notes.›</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">REFERENCES</span></h2>
-          <p class="block__lede">From people who managed and worked with me — full recommendations on <a href="https://www.linkedin.com/in/joshua-barradas-433292212">LinkedIn</a>.</p>
-          <div class="quotes">
-            <blockquote class="quote">
-              <p class="quote__text">"I have very few words to describe Josh other than exceptional… someone I could trust to take ownership of important work. He was also excellent at explaining complex technical decisions to non-technical colleagues. I would recommend Josh for any cloud engineering or infrastructure-focused position without hesitation."</p>
-              <footer class="quote__by">
-                <span class="quote__name">Yunus Tufail</span>
-                <span class="quote__role">Founder, EfficiencAI · managed Joshua directly</span>
-              </footer>
-            </blockquote>
-            <blockquote class="quote">
-              <p class="quote__text">"Joshua took ownership of our AWS reporting infrastructure and improved the reliability of our analytics pipelines for healthcare clients… a proactive, quick learner with a genuine passion for cloud engineering. I'd confidently recommend him for any cloud-focused engineering role."</p>
-              <footer class="quote__by">
-                <span class="quote__name">Hiresh Kumaran</span>
-                <span class="quote__role">Founder · managed Joshua directly at Noxieun</span>
-              </footer>
-            </blockquote>
-            <blockquote class="quote">
-              <p class="quote__text">"Joshua made a strong impact as a Cloud Engineer, with a particular strength in infrastructure as code using Terraform and building secure, scalable cloud environments… proactive, collaborative, and communicates clearly across teams. I would highly recommend him to any team looking for a capable and dependable Cloud Engineer."</p>
-              <footer class="quote__by">
-                <span class="quote__name">Avvinash Kumanan</span>
-                <span class="quote__role">COO · worked with Joshua at Noxieun</span>
-              </footer>
-            </blockquote>
-          </div>
-        </div>
+  <section class="band-dark">
+    <div class="wrap">
+      <h2 class="sec-title">References</h2>
+      <div class="refs">
+        <div class="ref"><div class="av">YT</div><h3>Yunus Tufail</h3><p>Founder, EfficiencAI · managed directly</p></div>
+        <div class="ref"><div class="av">HK</div><h3>Hiresh Kumaran</h3><p>Noxieun · managed directly</p></div>
+        <div class="ref"><div class="av">AK</div><h3>Avvinash Kumanan</h3><p>COO, Noxieun · worked together</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">SKILLS</span></h2>
-          <div class="caps">
-            <div class="caps__group">
-              <p class="caps__k">AWS</p>
-              <div class="caps__chips">
-                <span class="chip">Lambda</span><span class="chip">ECS Fargate</span><span class="chip">EC2</span><span class="chip">VPC</span><span class="chip">ALB</span><span class="chip">RDS (PostgreSQL)</span><span class="chip">API Gateway</span><span class="chip">DynamoDB</span><span class="chip">S3</span><span class="chip">EventBridge</span><span class="chip">SQS/DLQ</span><span class="chip">SNS</span><span class="chip">CloudWatch</span><span class="chip">Secrets Manager</span><span class="chip">KMS</span><span class="chip">IAM</span><span class="chip">Organizations</span><span class="chip">Security Hub</span><span class="chip">GuardDuty</span><span class="chip">Textract</span><span class="chip">Cognito</span><span class="chip">OpenSearch</span>
-              </div>
-            </div>
-            <div class="caps__group">
-              <p class="caps__k">IaC &amp; CI/CD</p>
-              <div class="caps__chips">
-                <span class="chip">Terraform</span><span class="chip">CloudFormation</span><span class="chip">GitHub Actions</span><span class="chip">OIDC</span><span class="chip">policy-as-code</span><span class="chip">PR-based change control</span>
-              </div>
-            </div>
-            <div class="caps__group">
-              <p class="caps__k">Containers &amp; Languages</p>
-              <div class="caps__chips">
-                <span class="chip">Docker</span><span class="chip">Kubernetes (GKE)</span><span class="chip">Linux</span><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">pytest</span><span class="chip">Boto3</span><span class="chip">Bash</span><span class="chip">JavaScript / Node.js</span>
-              </div>
-            </div>
-            <div class="caps__group">
-              <p class="caps__k">Networking &amp; Security</p>
-              <div class="caps__chips">
-                <span class="chip">VPC design</span><span class="chip">Route 53</span><span class="chip">Elastic Load Balancing</span><span class="chip">least-privilege IAM</span><span class="chip">KMS</span><span class="chip">Secrets Manager</span><span class="chip">OAuth 2.0</span>
-              </div>
-            </div>
-            <div class="caps__group">
-              <p class="caps__k">Architecture</p>
-              <div class="caps__chips">
-                <span class="chip">AWS Well-Architected</span><span class="chip">event-driven &amp; serverless</span><span class="chip">CloudWatch / X-Ray observability</span><span class="chip">cost optimisation</span><span class="chip">GCP (GKE, multi-cloud Terraform)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section class="band-light">
+    <div class="wrap quoteband">
+      <p>"Play long-term games with long-term people."</p>
+      — Naval Ravikant
+    </div>
+  </section>
 
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">EXPERIENCE</span></h2>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Engineer · Part-time — EfficiencAI</h3>
-              <span class="entry__dates">Apr 2026 - Present</span>
-            </div>
-            <p class="entry__org">AI recruitment start-up · Leeds</p>
-            <ul class="entry__points">
-              <li>
-                Built a secure JobAdder OAuth 2.0 integration — three Lambda
-                functions refreshing tokens every 50 min against a 60-min expiry
-                (zero lapses), secrets in Secrets Manager, EventBridge-scheduled —
-                removing manual token refresh and auth failures in candidate-data sync.
-              </li>
-              <li>
-                Architected a multi-cloud OnlyOffice deployment on GCP GKE with
-                connection-based autoscaling (20+ pods), reproducible in Terraform
-                across AWS and GCP — cutting environment provisioning from days to minutes.
-              </li>
-              <li>
-                Security end-to-end: KMS-encrypted credentials, Entra ID SSO, UK
-                data-residency, SQS dead-letter handling, and a real-time admin
-                dashboard for pod health and autoscaling.
-              </li>
-            </ul>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Engineer · Contract — XPX Technologies</h3>
-              <span class="entry__dates">Nov 2025 - Apr 2026 · concurrent</span>
-            </div>
-            <p class="entry__org">Instant-pay fintech · Leeds</p>
-            <ul class="entry__points">
-              <li>
-                Designed a six-layer, GDPR-first reference architecture for an
-                explainable salary-advance risk engine — synthetic-data ingestion,
-                governed storage with lineage, offline ML with SHAP explainability,
-                real-time scoring, and an ops layer for drift, fairness and immutable audit.
-              </li>
-              <li>
-                Built a working "Score → Explain → Act" prototype (FastAPI / React,
-                containerised, pytest, CI) that returns a risk band, the drivers
-                behind it, and a recommended action — not just a number.
-              </li>
-            </ul>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Engineer · Contract — Genyte</h3>
-              <span class="entry__dates">Nov 2025 - Feb 2026 · concurrent</span>
-            </div>
-            <p class="entry__org">Precision-medicine start-up · Leeds</p>
-            <ul class="entry__points">
-              <li>
-                Shaped compliant, well-architected designs for AI workloads in a
-                regulated medical-data environment, working through trade-offs on
-                access control, environment segregation and data handling with
-                research and engineering stakeholders.
-              </li>
-              <li>
-                Established GitHub PR-based change control to remove unreviewed
-                production changes; built CloudWatch logging, metrics and alarms;
-                supported Kubernetes deployments and pod-level debugging.
-              </li>
-            </ul>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Engineer · Contract — Pick n Pay</h3>
-              <span class="entry__dates">Aug 2025 - Jan 2026</span>
-            </div>
-            <p class="entry__org">Major retail group · South Africa</p>
-            <ul class="entry__points">
-              <li>
-                Piloted three AWS prototypes across two Pick n Pay stores —
-                real-time RFID inventory (IoT Core → Lambda → DynamoDB → SAP via
-                IDoc), finance/BI analytics (Glue, Athena, QuickSight) and kiosk
-                personalisation (Amazon Personalize) — each benchmarked against
-                its Azure equivalent on the same data.
-              </li>
-              <li>
-                Stress-tested the RFID pipeline to a simulated five-store load
-                (~950 msg/s at &lt;200ms, vs ~500 msg/s on Azure); measured ~20%
-                on-shelf inventory-accuracy improvement, with stockouts down ~22%
-                over the pilot.
-              </li>
-              <li>
-                Work formed the basis of an undergraduate dissertation evaluating
-                cloud-AI platforms for South African retail.
-              </li>
-            </ul>
-          </article>
-
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">Cloud Engineer · Contract — Noxieun</h3>
-              <span class="entry__dates">May 2025 - Aug 2025</span>
-            </div>
-            <p class="entry__org">Healthcare marketing agency · Leeds / Malaysia</p>
-            <ul class="entry__points">
-              <li>
-                Maintained and optimised the cloud reporting infrastructure,
-                keeping analytics dashboards and pipelines stable and reducing
-                manual intervention.
-              </li>
-              <li>
-                Reviewed Terraform plans pre-apply and debugged Kubernetes
-                pod-level issues, documenting findings as reusable runbooks.
-              </li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="band reveal">
-      <div class="band__inner">
-        <div class="block">
-          <h2 class="block__title"><span class="tag">EDUCATION</span></h2>
-          <article class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">BA (Hons) Business Management with Marketing</h3>
-              <span class="entry__dates">Graduated July 2025</span>
-            </div>
-            <p class="entry__org">University of Leeds</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="foot band">
-    <div class="band__inner">
-      <p>
-        Built with S3, CloudFront, Route&nbsp;53, API&nbsp;Gateway, Lambda,
-        DynamoDB, Terraform and GitHub&nbsp;Actions.
-        <a href="https://github.com/Joshuabarradas234/cloud-resume-challenge">Source</a>.
-      </p>
+  <footer class="band-dark">
+    <div class="wrap">
+      <div class="emblem">JB</div>
+      <p>joshuabarradas.com · Leeds, UK</p>
     </div>
   </footer>
-
-  <script src="reveal.js" defer></script>
-  <script src="counter.js" defer></script>
 </body>
 </html>
